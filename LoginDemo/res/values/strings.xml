@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LoginDemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+   <string name="login_user">user</string>
+    <string name="login_password">password</string>
+       <string name="login_ok">login</string>
+</resources>
