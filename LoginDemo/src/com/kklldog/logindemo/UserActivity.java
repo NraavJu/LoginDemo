@@ -38,7 +38,7 @@ public class UserActivity extends Activity {
 			List<User> users= service.GetAll(User.class);
 			for(User u : users)
 			{
-				list.add(u.getName()+" "+u.getPassword()+" "+u.getSex());
+				list.add(u.getName()+"-"+u.getPassword()+"-"+u.getSex());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
