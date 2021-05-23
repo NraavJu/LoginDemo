@@ -2,6 +2,7 @@ package com.kklldog.logindemo;
 
 import com.kklldog.po.User;
 import com.kklldog.services.UserService;
+import com.kklldog.util.Dialog;
 
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -35,7 +36,7 @@ public class LoginActivity extends Activity {
 				try {
 					
 					UserService service=new UserService();
-					User user = service.Login(tbxUser.getText().toString(), tbxPsw.getText().toString());
+					User user = service.login(tbxUser.getText().toString(), tbxPsw.getText().toString());
 					
 					
 					if(user!=null){
@@ -48,17 +49,14 @@ public class LoginActivity extends Activity {
 					else{
 						String msg="";
 						msg="userName or psw is worng!";
-						AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this); 
-						builder.setMessage(msg);
-						builder.show(); 
+						Dialog.showAlert(msg,LoginActivity.this );
 					}
 				
 					
 					
 				} catch (Exception e) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this); 
-					builder.setMessage(e.getMessage());
-					builder.show(); 
+					
+					Dialog.showAlert("异常", e.getMessage(),LoginActivity.this );
 					
 				}
 			};

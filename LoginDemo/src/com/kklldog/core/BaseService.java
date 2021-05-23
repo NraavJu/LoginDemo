@@ -9,45 +9,45 @@ import com.alibaba.fastjson.JSON;
 
 public abstract class BaseService<T> {
 	
-	public abstract String GetUrl();
+	public abstract String getUrl();
 	
-	public T Create(T entity,Class<T> cls ) throws Exception
+	public T create(T entity,Class<T> cls ) throws Exception
 	{
 		String json = JSON.toJSONString(entity);
-		String newJson = HttpHelper.doHttpPost(this.GetUrl(), json);
+		String newJson = HttpHelper.doHttpPost(this.getUrl(), json);
 		
 		T item= (T) JSON.parseObject(newJson,cls);
 		return item;
 	}
 	
-	public void Delete(String id) throws Exception
+	public void delete(String id) throws Exception
 	{
 	     List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); 
 	     nameValuePairs.add(new BasicNameValuePair("id",id));
 	     
-	     HttpHelper.doHttpDelete(this.GetUrl(), nameValuePairs);
+	     HttpHelper.doHttpDelete(this.getUrl(), nameValuePairs);
 	}
 	
-	public void Update(T entity) throws Exception
+	public void update(T entity) throws Exception
 	{
 		String josn = JSON.toJSONString(entity);
-		HttpHelper.doHttpPut(this.GetUrl(), josn);
+		HttpHelper.doHttpPut(this.getUrl(), josn);
 	}
 	
-	public T GetById(String id,Class<T> cls) throws Exception
+	public T getById(String id,Class<T> cls) throws Exception
 	{
 	    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); 
 	    nameValuePairs.add(new BasicNameValuePair("id",id));
-	    String json = HttpHelper.doHttpGet(this.GetUrl(), nameValuePairs);
+	    String json = HttpHelper.doHttpGet(this.getUrl(), nameValuePairs);
 	    
 		T item= (T) JSON.parseObject(json,cls);
 		
 		return item;
 	}
 	
-	public List<T> GetAll(Class<T> cls) throws Exception
+	public List<T> getAll(Class<T> cls) throws Exception
 	{
-		String json = HttpHelper.doHttpGet(this.GetUrl());
+		String json = HttpHelper.doHttpGet(this.getUrl());
 		List<T>  list=  JSON.parseArray(json, cls);
 		return list;
 	}

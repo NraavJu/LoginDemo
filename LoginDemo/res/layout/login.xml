@@ -8,14 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
 
-
     <EditText
         android:id="@+id/txtUser"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-   		android:hint="@string/login_user"
         android:ems="10"
-        android:inputType="text" >
+        android:hint="@string/login_user"
+        android:inputType="text"
+        android:text="andriod" >
 
         <requestFocus />
     </EditText>
@@ -28,7 +28,8 @@
         android:layout_below="@+id/txtUser"
         android:ems="10"
         android:hint="@string/login_password"
-        android:inputType="text|textPassword" />
+        android:inputType="text|textPassword"
+        android:text="password" />
 
     <Button
         android:id="@+id/btnLogin"

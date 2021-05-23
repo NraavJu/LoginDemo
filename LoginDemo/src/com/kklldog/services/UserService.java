@@ -15,17 +15,18 @@ import com.kklldog.po.User;
 public class UserService extends BaseService<User> {
 
 	@Override
-	public String GetUrl() {
+	public String getUrl() {
 		
 		return Config.USER_SERVICE_URL;
 	}
 	
-	public User Login(String userName,String password) throws Exception{
+	public User login(String userName,String password) throws Exception{
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); 
 		nameValuePairs.add(new BasicNameValuePair("userName",userName));
 		nameValuePairs.add(new BasicNameValuePair("password",password));
-		String str=HttpHelper.doHttpGet(this.GetUrl(), nameValuePairs);
+		String str=HttpHelper.doHttpGet(this.getUrl(), nameValuePairs);
 		User user = JSON.parseObject(str,User.class);
 		return user;
 	}
+	
 }
