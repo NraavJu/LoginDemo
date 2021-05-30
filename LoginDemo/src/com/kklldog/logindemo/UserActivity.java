@@ -13,12 +13,10 @@ import com.kklldog.util.Dialog;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -34,13 +32,17 @@ public class UserActivity extends Activity {
 		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		    StrictMode.setThreadPolicy(policy);
 		}
+		LoadUserListView();
+		//list.geti
+	}
+
+	private void LoadUserListView() {
 		ListView list = (ListView) findViewById(R.id.userListView);  
 		_userInfo=getUserInfoList();
 		SimpleAdapter adapter = new SimpleAdapter(this,_userInfo,R.layout.user_item,
 				new String[]{"userInfo"},
 				new int[]{R.id.txtInfo});
 		list.setAdapter(adapter);
-		//list.geti
 	}
 	
 	private List<Map<String, Object>> getUserInfoList() 
@@ -72,6 +74,7 @@ public class UserActivity extends Activity {
 		menu.add(Menu.NONE,1,1,"添加");
 		menu.add(Menu.NONE,2,2,"删除");
 		menu.add(Menu.NONE,3,3,"编辑");
+		menu.add(Menu.NONE,4,4,"刷新");
 		return true;
 	}
 	
@@ -89,7 +92,6 @@ public class UserActivity extends Activity {
 		    	SimpleAdapter adapter = (SimpleAdapter)list.getAdapter();
 		   		UserService service=new UserService();
 		   		
-		   		List<Object> delteItems = new ArrayList<Object>();
 		    	for(int i = 0; i < list.getCount(); i++)//获取ListView的所有Item数目  
 	            {  
 		    		View view = list.getChildAt(i);
@@ -101,23 +103,22 @@ public class UserActivity extends Activity {
 		    			String id =(String) map.get("userId");
 		    			try {
 							service.delete(id);
-							delteItems.add(map);
+							_userInfo.remove(map);
+							cbx.setChecked(false);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 		    		}
 	             }
-		    	 for(int i =0;i<delteItems.size();i++)
-		    	 {
-		    		 Object obj = delteItems.get(i);
-		    		 _userInfo.remove(obj);
-		    	 }
 		    	 
 		    	 adapter.notifyDataSetChanged();
 				  break;
 		    case 3:
 		    	Dialog.showToast("Edit", this.getApplicationContext() );
+				  break;
+		    case 4:
+		    	this.LoadUserListView();
 				  break;
 			default:
 				break;

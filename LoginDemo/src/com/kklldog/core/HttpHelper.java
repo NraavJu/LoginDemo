@@ -81,7 +81,8 @@ public class HttpHelper {
 			} catch (Exception e) {
 				throw e;
 			}
-
+		case 204:
+			return "";
 		case 401:
 			response.getEntity().consumeContent();
 			throw new Exception(response.getStatusLine().toString());
