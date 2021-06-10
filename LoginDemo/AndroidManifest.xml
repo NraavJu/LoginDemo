@@ -30,6 +30,10 @@
             android:name="com.kklldog.logindemo.UserActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.kklldog.logindemo.UserEditActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

@@ -8,11 +8,11 @@ import java.util.Map;
 
 import com.kklldog.po.User;
 import com.kklldog.services.UserService;
-import com.kklldog.util.Dialog;
 
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,11 +32,12 @@ public class UserActivity extends Activity {
 		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		    StrictMode.setThreadPolicy(policy);
 		}
-		LoadUserListView();
-		//list.geti
+		
+		loadUserListView();
+	
 	}
 
-	private void LoadUserListView() {
+	private void loadUserListView() {
 		ListView list = (ListView) findViewById(R.id.userListView);  
 		_userInfo=getUserInfoList();
 		SimpleAdapter adapter = new SimpleAdapter(this,_userInfo,R.layout.user_item,
@@ -58,6 +59,7 @@ public class UserActivity extends Activity {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("userInfo",String.format(info,u.getName(),u.getPassword(),u.getSex()));
 				map.put("userId",u.getId());
+				map.put("userObj",u);
 				list.add(map);
 			}
 		} catch (Exception e) {
@@ -80,18 +82,22 @@ public class UserActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	{	
+		ListView list = (ListView) findViewById(R.id.userListView);  
+	    SimpleAdapter adapter = (SimpleAdapter)list.getAdapter();
+	    
 		switch(item.getItemId())
 		{
 		    case 1:
-		    	Dialog.showToast("Add", this.getApplicationContext() );
+		    	Intent intent = new Intent();  
+		    	intent.putExtra("user",new User());
+	            intent.setClass(UserActivity.this,UserEditActivity.class);  
+	            startActivity(intent);  
+	           // this.finish();
 				  break;
 		    case 2:
-		    	
-		    	ListView list = (ListView) findViewById(R.id.userListView);  
-		    	SimpleAdapter adapter = (SimpleAdapter)list.getAdapter();
 		   		UserService service=new UserService();
-		   		
+		   		List<Map<String, Object>> deletList =new ArrayList<Map<String, Object>>();
 		    	for(int i = 0; i < list.getCount(); i++)//获取ListView的所有Item数目  
 	            {  
 		    		View view = list.getChildAt(i);
@@ -103,7 +109,7 @@ public class UserActivity extends Activity {
 		    			String id =(String) map.get("userId");
 		    			try {
 							service.delete(id);
-							_userInfo.remove(map);
+							deletList.add(map);
 							cbx.setChecked(false);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -111,14 +117,32 @@ public class UserActivity extends Activity {
 						}
 		    		}
 	             }
-		    	 
+		    	 for(Map<String, Object> m : deletList)
+		    	 {
+		    		 this._userInfo.remove(m);
+		    	 }
 		    	 adapter.notifyDataSetChanged();
 				  break;
 		    case 3:
-		    	Dialog.showToast("Edit", this.getApplicationContext() );
+		    	for(int i = 0; i < list.getCount(); i++)//获取ListView的所有Item数目  
+	            {  
+		    		View view = list.getChildAt(i);
+		    		CheckBox cbx =(CheckBox) view.findViewById(R.id.cbxSelected);
+		    		if(cbx.isChecked())
+		    		{
+		    			@SuppressWarnings("unchecked")
+						Map<String, Object> map = (Map<String, Object>) adapter.getItem(i);
+		    			User u =(User) map.get("userObj");
+		    			Intent intentEdit = new Intent();  
+		    			intentEdit.putExtra("user",u);
+		    			intentEdit.setClass(UserActivity.this,UserEditActivity.class);  
+			            startActivity(intentEdit); 
+		    			break;
+		    		}
+	            }
 				  break;
 		    case 4:
-		    	this.LoadUserListView();
+		    	this.loadUserListView();
 				  break;
 			default:
 				break;

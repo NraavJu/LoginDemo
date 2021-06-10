@@ -65,7 +65,7 @@ public class HttpHelper {
 
 			// 连接管理
 			HttpConnectionParams.setConnectionTimeout(params,   1000);// 建立连接的超时时间（以毫秒为单位）当值为0被解释成一个无限超时,如果此参数不设置，连接操作不会超时（无限超时）。
-			HttpConnectionParams.setSoTimeout(params,   1000); // 以毫秒为单位定义套接字超时（SO_TIMEOUT）。当值为0被解释成一个无限的暂停,如果此参数不设置，读操作不会超时（无限暂停）。
+			HttpConnectionParams.setSoTimeout(params,   5000); // 以毫秒为单位定义套接字超时（SO_TIMEOUT）。当值为0被解释成一个无限的暂停,如果此参数不设置，读操作不会超时（无限暂停）。
 			HttpConnectionParams.setSocketBufferSize(params, 8192);// 接收/传输HTTP消息时，确定socket内部缓冲区缓存数据的大小,如果此参数不设置，HttpClient将分配8192字节scoket缓冲区
 
 			return params;
@@ -129,7 +129,7 @@ public class HttpHelper {
 		
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader(new BasicHeader("Content-Type", "application/json"));
-		httpPost.setEntity(new StringEntity(josn));
+		httpPost.setEntity(new StringEntity(josn, HTTP.UTF_8));
 		return execRequest(httpPost);
 	}
 	
@@ -137,7 +137,7 @@ public class HttpHelper {
 		
 		HttpPut httpPut = new HttpPut(url);
 		httpPut.addHeader(new BasicHeader("Content-Type", "application/json"));
-		httpPut.setEntity(new StringEntity(josn));
+		httpPut.setEntity(new StringEntity(josn, HTTP.UTF_8));
 		return execRequest(httpPut);
 	}
 }

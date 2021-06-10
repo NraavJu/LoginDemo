@@ -7,4 +7,10 @@
    <string name="login_user">user</string>
     <string name="login_password">password</string>
        <string name="login_ok">login</string>
+       <string name="edit_password">密码</string>
+       <string name="edit_name">用户名</string>
+       <string name="edit_sex">性别</string>
+       <string name="edit_sex_m">男</string>
+       <string name="edit_sex_f">女</string>
+       <string name="edit_save">保存</string>
 </resources>
