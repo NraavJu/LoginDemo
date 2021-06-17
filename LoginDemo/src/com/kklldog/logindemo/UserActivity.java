@@ -1,6 +1,4 @@
 package com.kklldog.logindemo;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +17,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-
+/** 
+ * @author mj.zhou 
+ * @version create：2013-12-1 下午4:03:48 
+ * User List
+ */
 public class UserActivity extends Activity {
 
 	private List<Map<String, Object>> _userInfo;
@@ -32,11 +34,14 @@ public class UserActivity extends Activity {
 		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		    StrictMode.setThreadPolicy(policy);
 		}
-		
+		//加载用户列表
 		loadUserListView();
 	
 	}
 
+	/**
+	 * 加载用户到ListView
+	 */
 	private void loadUserListView() {
 		ListView list = (ListView) findViewById(R.id.userListView);  
 		_userInfo=getUserInfoList();
@@ -46,6 +51,10 @@ public class UserActivity extends Activity {
 		list.setAdapter(adapter);
 	}
 	
+	/**
+	 * 获取用户数据
+	 * @return
+	 */
 	private List<Map<String, Object>> getUserInfoList() 
 	{
 		UserService service=new UserService();
@@ -71,8 +80,7 @@ public class UserActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.main, menu);
+		//添加菜单
 		menu.add(Menu.NONE,1,1,"添加");
 		menu.add(Menu.NONE,2,2,"删除");
 		menu.add(Menu.NONE,3,3,"编辑");
@@ -88,14 +96,14 @@ public class UserActivity extends Activity {
 	    
 		switch(item.getItemId())
 		{
-		    case 1:
+		    case 1://add
 		    	Intent intent = new Intent();  
-		    	intent.putExtra("user",new User());
+		    	intent.putExtra("user",new User());//传参
 	            intent.setClass(UserActivity.this,UserEditActivity.class);  
 	            startActivity(intent);  
 	           // this.finish();
 				  break;
-		    case 2:
+		    case 2://delete
 		   		UserService service=new UserService();
 		   		List<Map<String, Object>> deletList =new ArrayList<Map<String, Object>>();
 		    	for(int i = 0; i < list.getCount(); i++)//获取ListView的所有Item数目  
@@ -108,7 +116,7 @@ public class UserActivity extends Activity {
 						Map<String, Object> map = (Map<String, Object>) adapter.getItem(i);
 		    			String id =(String) map.get("userId");
 		    			try {
-							service.delete(id);
+							service.delete(id);//删除
 							deletList.add(map);
 							cbx.setChecked(false);
 						} catch (Exception e) {
@@ -119,11 +127,11 @@ public class UserActivity extends Activity {
 	             }
 		    	 for(Map<String, Object> m : deletList)
 		    	 {
-		    		 this._userInfo.remove(m);
+		    		 this._userInfo.remove(m);//从数据集里移除数据
 		    	 }
-		    	 adapter.notifyDataSetChanged();
+		    	 adapter.notifyDataSetChanged();//通知UI更新
 				  break;
-		    case 3:
+		    case 3://edit
 		    	for(int i = 0; i < list.getCount(); i++)//获取ListView的所有Item数目  
 	            {  
 		    		View view = list.getChildAt(i);
@@ -141,7 +149,7 @@ public class UserActivity extends Activity {
 		    		}
 	            }
 				  break;
-		    case 4:
+		    case 4://刷新
 		    	this.loadUserListView();
 				  break;
 			default:

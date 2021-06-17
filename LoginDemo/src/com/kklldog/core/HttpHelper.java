@@ -25,10 +25,18 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-
+/** 
+ * @author mj.zhou 
+ * @version create：2013-12-1 下午4:03:48 
+ * Http操作封装
+ */
 public class HttpHelper {
 	private static HttpClient mHttpClient;
 	
+	/**
+	 * 获取httpClient实例
+	 * @return
+	 */
 	public static HttpClient getHttpClient(){
 		if( mHttpClient==null )
 		{
@@ -71,9 +79,14 @@ public class HttpHelper {
 			return params;
 	}
 	
+	/**
+	 * 执行http请求 根据状态码判断是否成功 200，204为成功，其他都为失败
+	 * @param httpRequest
+	 * @return
+	 * @throws Exception
+	 */
 	protected static String execRequest(HttpRequestBase httpRequest) throws  Exception {
 		HttpResponse response = getHttpClient().execute(httpRequest);
-
 		switch (response.getStatusLine().getStatusCode()) {
 		case 200:
 			try {
@@ -96,28 +109,62 @@ public class HttpHelper {
 			throw new Exception(response.getStatusLine().toString());
 		}
 	}
+	
+	/**
+	 * 执行 httpGet请求
+	 * @param url 请求地址
+	 * @param nameValuePairs 附带参数
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
 	public static String doHttpGet(String url,List<NameValuePair> nameValuePairs) throws Exception{
 		String query = URLEncodedUtils.format(nameValuePairs, HTTP.UTF_8);
 		HttpGet httpGet = new HttpGet(url + "?" + query);
 		return execRequest(httpGet);
 	}
 	
+	/**
+	 * 执行 httpGet请求
+	 * @param url 请求地址
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
 	public static String doHttpGet(String url) throws Exception{
 		HttpGet httpGet = new HttpGet(url);
 		return execRequest(httpGet);
 	}
     
+	/**
+	 * 执行 httpDelete请求
+	 * @param url
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
 	public static String doHttpDelete(String url) throws Exception{
 		HttpDelete httpDelete = new HttpDelete(url);
 		return execRequest(httpDelete);
 	}
 	
+	/**
+	 * 执行httpDelete请求
+	 * @param url 请求URL
+	 * @param nameValuePairs 附带参数
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
 	public static String doHttpDelete(String url,List<NameValuePair> nameValuePairs) throws Exception{
 		String query = URLEncodedUtils.format(nameValuePairs, HTTP.UTF_8);
 		HttpDelete httpDelete = new HttpDelete(url + "?" + query);
 		return execRequest(httpDelete);
 	}
 	
+	/**
+	 * 执行httpPost请求
+	 * @param url 请求URL
+	 * @param nameValuePairs 附带参数
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
 	public static String doHttpPost(String url,List<NameValuePair> nameValuePairs) throws Exception{
 		
 		HttpPost httpPost = new HttpPost(url);
@@ -125,19 +172,33 @@ public class HttpHelper {
 		return execRequest(httpPost);
 	}
 	
-	public static String  doHttpPost(String url,String josn) throws Exception{
+	/**
+	 * 执行httpPost请求
+	 * @param url 请求URL
+	 * @param json 提交的json数据
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
+	public static String  doHttpPost(String url,String json) throws Exception{
 		
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader(new BasicHeader("Content-Type", "application/json"));
-		httpPost.setEntity(new StringEntity(josn, HTTP.UTF_8));
+		httpPost.setEntity(new StringEntity(json, HTTP.UTF_8));
 		return execRequest(httpPost);
 	}
 	
-	public static String  doHttpPut(String url,String josn) throws Exception{
+	/**
+	 * 执行httpPut请求
+	 * @param url 请求URL
+	 * @param json 提交的json数据
+	 * @return 服务器返回数据
+	 * @throws Exception
+	 */
+	public static String  doHttpPut(String url,String json) throws Exception{
 		
 		HttpPut httpPut = new HttpPut(url);
 		httpPut.addHeader(new BasicHeader("Content-Type", "application/json"));
-		httpPut.setEntity(new StringEntity(josn, HTTP.UTF_8));
+		httpPut.setEntity(new StringEntity(json, HTTP.UTF_8));
 		return execRequest(httpPut);
 	}
 }

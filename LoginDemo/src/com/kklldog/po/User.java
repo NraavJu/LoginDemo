@@ -2,7 +2,11 @@ package com.kklldog.po;
 
 import java.io.Serializable;
 
-
+/** 
+ * @author mj.zhou 
+ * @version create：2013-12-3 下午4:03:48 
+ * User PO
+ */
 public class User implements Serializable  {
 
 	/**

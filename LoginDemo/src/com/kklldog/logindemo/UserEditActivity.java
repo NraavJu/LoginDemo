@@ -17,7 +17,11 @@ import com.kklldog.util.Uuid;
 import com.kklldog.util.Dialog;
 import com.kklldog.services.UserService;
 
-
+/** 
+ * @author mj.zhou 
+ * @version create：2013-12-3 下午4:03:48 
+ * User Edit
+ */
 public class UserEditActivity extends Activity {
 
 	private User _user;
@@ -32,12 +36,16 @@ public class UserEditActivity extends Activity {
 		}
 		
 		Intent intent = this.getIntent();
-		_user = (User)intent.getSerializableExtra("user");
-		loadUser();
-		initListener();
+		_user = (User)intent.getSerializableExtra("user");//页面传参
+		loadUser();//加载用户
+		initListener();//初始化监听
 	}
 
+	/**
+	 * 初始化监听
+	 */
 	private void initListener() {
+		
 		final EditText txtName = (EditText)this.findViewById(R.id.txtEditName);
 		final EditText pswName = (EditText)this.findViewById(R.id.txtEditPassword);
 		final RadioButton rbSexF= (RadioButton)this.findViewById(R.id.rbSexF);
@@ -46,6 +54,7 @@ public class UserEditActivity extends Activity {
 		Button btn = (Button)this.findViewById(R.id.btnSave);
 		btn.setOnClickListener(new OnClickListener(){
 
+			//保存事件
 			@Override
 			public void onClick(View arg0) {
 				if(_user==null)
@@ -91,6 +100,9 @@ public class UserEditActivity extends Activity {
 		});
 	}
 
+	/**
+	 * 加载用户
+	 */
 	private void loadUser()
 	{
 		if(_user!=null)

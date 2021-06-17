@@ -13,7 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
+/** 
+ * @author mj.zhou 
+ * @version create：2013-12-1 下午4:03:48 
+ * Login
+ */
 public class LoginActivity extends Activity {
 
 	@Override
@@ -25,8 +29,15 @@ public class LoginActivity extends Activity {
 		    StrictMode.setThreadPolicy(policy);
 		}
 		
-		Button btn = (Button)this.findViewById(R.id.btnLogin);
+		initListener();
+	}
+
+	/**
+	 * 初始化监听
+	 */
+	private void initListener() {
 		
+		Button btn = (Button)this.findViewById(R.id.btnLogin);
 		final EditText tbxUser=(EditText)this.findViewById(R.id.txtUser);
 		final EditText tbxPsw=(EditText)this.findViewById(R.id.txtPassword);
 		
@@ -35,9 +46,8 @@ public class LoginActivity extends Activity {
 				try {
 					
 					UserService service=new UserService();
+					//登陆
 					User user = service.login(tbxUser.getText().toString(), tbxPsw.getText().toString());
-					
-					
 					if(user!=null){
 						//go to user list
 						Intent intent = new Intent();  
@@ -47,16 +57,12 @@ public class LoginActivity extends Activity {
 					}
 					else{
 						String msg="";
-						msg="userName or psw is worng!";
+						msg="用户名或密码错误!";
 						Dialog.showAlert(msg,LoginActivity.this );
 					}
-				
-					
-					
+
 				} catch (Exception e) {
-					
-					Dialog.showAlert("异常", e.getMessage(),LoginActivity.this );
-					
+					Dialog.showAlert("异常", e.getMessage(),LoginActivity.this );	
 				}
 			};
 		});
